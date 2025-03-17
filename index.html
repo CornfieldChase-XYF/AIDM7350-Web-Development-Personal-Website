@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Glassmorphism Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav class="navbar glass-effect">
+        <div class="nav-links">
+            <a href="#home">Home</a>
+            <a href="#about">About</a>
+            <a href="#portfolio">Portfolio</a>
+        </div>
+        <button class="menu-button">☰</button>
+    </nav>
+
+    <section id="home" class="hero">
+        <div class="hero-content glass-effect">
+            <h1>My Game Portfolio</h1>
+            <p>Exploring the Mysteries of Game Design</p>
+        </div>
+    </section>
+    
+    <section id="portfolio" class="portfolio-section">
+        <div class="work-item glass-effect">
+            <div class="content-wrapper">
+                <div class="text-content">
+                    <h2>Light & Shadow Puzzle</h2>
+                    <p>Exploring the geometric beauty of modern cities through innovative photography techniques.</p>
+                    <ul>
+                        <li>4K resolution photography</li>
+                        <li>Time-lapse video integration</li>
+                        <li>360° panoramic captures</li>
+                        <li>HDR image processing</li>
+                    </ul>
+                </div>
+                <div class="image-grid">
+                    <div class="grid-item"><img src="images/bg01.jpg" alt="City Night"></div>
+                    <div class="grid-item"><img src="images/bg01.jpg" alt="Modern Building"></div>
+                    <div class="grid-item"><img src="images/bg01.jpg" alt="Skyscraper"></div>
+                    <div class="grid-item"><img src="images/bg01.jpg" alt="Cityscape"></div>
+                </div>
+            </div>
+            <div class="video-container">
+                <iframe src="https://www.youtube.com/embed/BohIB_yPLp8" allowfullscreen></iframe>
+            </div>
+        </div>
+
+        <div class="work-item glass-effect">
+            <div class="content-wrapper">
+                <div class="text-content">
+                    <h2>Nature Exploration</h2>
+                    <p>Documenting wilderness landscapes through 4K videography and time-lapse photography.</p>
+                    <ul>
+                        <li>8K RAW video recording</li>
+                        <li>Drone aerial cinematography</li>
+                        <li>360° sound recording</li>
+                        <li>HDR time-lapse sequences</li>
+                    </ul>
+                </div>
+                <div class="image-grid">
+                    <div class="grid-item"><img src="images/bg02.png" alt="Forest"></div>
+                    <div class="grid-item"><img src="images/bg02.png" alt="Mountain"></div>
+                    <div class="grid-item"><img src="images/bg02.png" alt="Waterfall"></div>
+                    <div class="grid-item"><img src="images/bg02.png" alt="Wildlife"></div>
+                </div>
+            </div>
+            <div class="video-container">
+                <iframe src="https://www.youtube.com/embed/yXRC3Hudf2g" allowfullscreen></iframe>
+            </div>
+        </div>
+    </section>
+
+    <div class="image-modal" onclick="closeModal(event)">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal(event)">&times;</span>
+            <img id="expanded-img" src="" alt="Expanded view">
+        </div>
+    </div>
+
+    <script>
+        const menuButton = document.querySelector('.menu-button');
+        const navLinks = document.querySelector('.nav-links');
+
+        menuButton.addEventListener('click', (e) => {
+            e.stopPropagation();
+            navLinks.classList.toggle('active');
+        });
+
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                if (window.innerWidth <= 768) navLinks.classList.remove('active');
+            });
+        });
+
+        let lastScroll = 0;
+        const navbar = document.querySelector('.navbar');
+        window.addEventListener('scroll', () => {
+            const currentScroll = window.pageYOffset;
+            navbar.style.top = currentScroll > lastScroll && currentScroll > 100 ? '-80px' : '0';
+            lastScroll = currentScroll;
+        });
+
+        function openModal(imgSrc) {
+            document.querySelector('.image-modal').style.display = 'flex';
+            document.getElementById('expanded-img').src = imgSrc;
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal(e) {
+            if(e.target.classList.contains('image-modal') || e.target.classList.contains('close-btn')) {
+                document.querySelector('.image-modal').style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        document.querySelectorAll('.grid-item img').forEach(img => {
+            img.addEventListener('click', (e) => {
+                e.stopPropagation();
+                openModal(img.src);
+            });
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if(e.key === 'Escape') closeModal({target: document.querySelector('.image-modal')});
+        });
+
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 768) navLinks.classList.remove('active');
+        });
+    </script>
+</body>
+</html>
